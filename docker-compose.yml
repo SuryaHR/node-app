@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+ # nginx:
+  #  image: 'nginx'
+   # links:
+    #  - "goals-app"
+
+
+  goals-app:
+    build: .
+    ports:
+      - '8080:8080'

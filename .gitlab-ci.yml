@@ -1,0 +1,266 @@
+build-job:
+  stage: build
+  script: 
+    - echo "Hello, $GITLAB_USER_LOGIN!"
+
+test-job1:
+  stage: test
+  script: 
+    - echo "This job tests something"
+
+test-job2:
+  stage: test
+  script:
+    - echo "This job tests something, but takes more time than test-job1"
+    - echo "After the cho commands complete, it runs the sleep command for 20 seconds"
+    - echo "which simulates a test that runs 20 seconds longer than test-job1"
+    - sleep 20
+
+deploy-prod:
+  stage: deploy
+  script: 
+    - echo "This job deploys something from the $CI_COMMIT_BRANCH branch."
+  environment: production
+
+# stages:
+#   - build
+#   - test
+#   - deploy
+
+# build-job-example:
+#   stage: build
+#   script:
+#     - echo "Building the 'Hello World' app"
+
+# test-job-example:
+#   stage: test
+#   script:
+#     - echo "Testing the 'Hello World' app"
+
+# deploy-job-example:
+#   stage: deploy
+#   script:
+#     - echo "Deploying the 'Hello World' app"
+
+# upload to s3:
+#   image:
+#     name: banst/awscli
+#     entrypoint: [""]
+#   script:
+#     - aws configure set region us-east-1
+#     - touch foo.txt
+#     - aws s3 cp foo.txt s3://$S3_BUCKET/foo.txt
+
+# variables:
+#   S3_BUCKET: "stage.yourdomain.com"
+#   DISTRIBUTION_ID: "XXXXXXXXXXXXX"
+#   BUILD_COMMAND: "npm run build"
+#   DIST_DIR: "./dist"
+
+# stages:
+#   - build
+#   - deploy
+
+# build:
+#   stage: build
+#   image: debian:latest
+#   cache:
+#     key: ${CI_COMMIT_REF_SLUG}
+#     paths:
+#       - node_modules/
+#   before_script:
+#     - apt-get update
+#     - apt-get -qq -y install wget #install wget
+#     - wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash #install nvm
+#     - export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" --no-use #load nvm
+#     - eval "[ -f .nvmrc ] && nvm install || nvm install stable" #install node
+#   script:
+#     - npm install #install npm packages
+#     - eval $BUILD_COMMAND #run build command
+#   artifacts:
+#     paths:
+#       - ${DIST_DIR} #pass the dist dir to deploy stage
+
+# .deploy: &deploy
+#   stage: deploy
+#   image: python:latest
+#   dependencies:
+#     - build
+#   before_script:
+#     - pip install awscli #install aws command line interface
+#   script:
+#     - aws s3 sync ${DIST_DIR} s3://${S3_BUCKET}/${CI_PROJECT_NAME}/${CI_COMMIT_REF_NAME} --delete #sync with s3 dir
+#     - aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths "/*" #invalidate cache
+
+# deploy:master:
+#   <<: *deploy
+#   only:
+#     - master #job valid only for the master branch
+#   environment:
+#     name: ${CI_COMMIT_REF_NAME}
+#     url: https://${CI_PROJECT_NAME}.${S3_BUCKET}
+#     on_stop: clean
+
+# deploy:branches:
+#   <<: *deploy
+#   only:
+#     - branches
+#     - tags
+#   except:
+#     - master #job valid for all branches and tags except the master branch
+#   environment:
+#     name: ${CI_COMMIT_REF_NAME}
+#     url: https://${CI_PROJECT_NAME}--${CI_COMMIT_REF_NAME}.${S3_BUCKET}
+#     on_stop: clean
+
+# clean:
+#   stage: deploy
+#   image: "python:latest"
+#   before_script:
+#     - pip install awscli #install aws command line interface
+#   script:
+#     - aws s3 rm s3://${S3_BUCKET}/${CI_PROJECT_NAME}/${CI_COMMIT_REF_NAME} --recursive #delete the s3 dir
+#   environment:
+#     name: ${CI_COMMIT_REF_NAME}
+#     action: stop
+#   when: manual
+
+# stages:
+#     - build
+
+# build:
+#     image: python:latest
+#     stage: build
+#     script:
+#             - apt-get update
+#             - apt-get install -y zip unzip
+#             - pip install awscli
+#             - mkdir ~/.aws/
+#             - touch ~/.aws/credentials
+#             - pip install awscli
+#             - printf "[eb-cli]\naws_access_key_id = %s\naws_secret_access_key = %s\nregion = %s\n" "$AWS_ACCESS_KEY_ID" "$AWS_SECRET_ACCESS_KEY" "$AWS_DEFAULT_REGION" >> ~/.aws/credentials
+#             - bash cicdScript.sh
+
+# before_script:
+#   - apt-get update -qq
+#   - apt-get install -qq git
+#   # Setup SSH deploy keys
+#   - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+#   - eval $(ssh-agent -s)
+#   - ssh-add <(echo "$SSH_PRIVATE_KEY")
+#   - mkdir -p ~/.ssh
+#   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    
+# deploy_staging:
+#   type: deploy
+#   environment:
+#     name: staging
+#     url: example.com
+#   script:
+#     - ssh root@example.com "cd var/www/ && git checkout master && git pull origin master && exit"
+#   only:
+#     - master
+
+# image: alpine:latest
+
+# pages:
+#   stage: deploy
+#   before_script:
+#   - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )' 
+#   - eval $(ssh-agent -s)
+#   - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+#   - mkdir -p ~/.ssh
+#   - chmod 700 ~/.ssh
+#   - ssh-keyscan $VM_IPADDRESS >> ~/.ssh/known_hosts
+#   - chmod 644 ~/.ssh/known_hosts
+#   script:
+#   - ssh $SSH_USER@$VM_IPADDRESS "hostname && echo 'Welcome!!!' > welcome.txt"
+#   artifacts:
+#     paths:
+#     - public
+#   only:
+#   - master
+
+# stages:
+#   - deploy
+
+# Deploy: 
+#   stage: deploy
+#   before_script:
+#   - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )' 
+#   - eval $(ssh-agent -s)
+#   - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+#   - mkdir -p ~/.ssh
+#   - chmod 700 ~/.ssh
+#   - ssh-keyscan $EC2_IPADDRESS >> ~/.ssh/known_hosts
+#   - chmod 644 ~/.ssh/known_hosts
+#   script:
+#     - mkdir .public
+#     - cp -r * .public
+#     - mv .public public
+#     - zip -r public.zip public
+#     - scp -o StrictHostKeyChecking=no public.zip ubuntu@13.233.134.103:/var/www/html
+#     - ssh -o StrictHostKeyChecking=no ubuntu@13.233.134.103 "cd /var/www/html; touch foo.txt; unzip public.zip"
+
+# run tests:
+#   image: $CI_REGISTRY_IMAGE
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE != "schedule"
+#   script: 
+#     - python --version
+#     - pip --version
+#     - pytest --version
+#     - echo "Job Completed"
+
+# build image:
+#   image: docker
+#   services:
+#     - docker:dind
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == "schedule"
+#   script: 
+#     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+#     - docker build -t $CI_REGISTRY_IMAGE .
+#     - echo $CI_REGISTRY_IMAGE
+#     - docker push $CI_REGISTRY_IMAGE
+
+# sudo groupadd docker 
+# usermod -aG docker gitlab-runner
+
+# stages: 
+#   - Login
+#   - Build
+#   - Push
+#   -Logout
+
+# variables:
+#   CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE: test
+
+# login_job:
+#   stage: Login
+#   tags: 
+#     - docker
+#   script: 
+#     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+# build_job:
+#   stage: Build
+#   tags:
+#     - docker
+#   script: 
+#     - docker build -t $CONTAINER_TEST_IMAGE .
+
+# push_job:
+#   stage: Push
+#   tags: 
+#     - docker
+#   script:
+#     - docker push $CONTAINER_TEST_IMAGE
+
+# logout_job:
+#   stage: Logout
+#   tags:
+#     - docker
+#   script:
+#     - docker logout $CI_REGISTRY
+

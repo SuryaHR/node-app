@@ -1,10 +1,10 @@
 pipeline {
     agent any
 
-    environment {
-        // Define the Node.js version to use
-        NODEJS_VERSION = 'NodeJS-1.6.1'
-    }
+    // environment {
+    //     // Define the Node.js version to use
+    //     NODEJS_VERSION = 'NodeJS-1.6.1'
+    // }
 
     stages {
         stage('Checkout') {
@@ -17,10 +17,10 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 // Use Node.js tool installer to install a specific Node.js version
-                script {
-                    def nodejsHome = tool name: "NodeJS-${NODEJS_VERSION}", type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
-                    env.PATH = "${nodejsHome}/bin:${env.PATH}"
-                }
+                // script {
+                //     def nodejsHome = tool name: "NodeJS-${NODEJS_VERSION}", type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+                //     env.PATH = "${nodejsHome}/bin:${env.PATH}"
+                // }
 
                 // Install project dependencies using npm
                 sh 'npm install'

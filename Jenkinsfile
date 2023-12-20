@@ -46,7 +46,7 @@ pipeline {
             steps {
                 script {
                     // Example: Deploy the Docker image to a registry (replace with your actual deployment commands)
-                    docker.withRegistry('https://hub.docker.com/repositories/surya589', 'docker-credentials-id') {
+                    docker.withRegistry('https://hub.docker.com', 'docker-credentials-id') {
                         docker.image("${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}").push()
                     }
 

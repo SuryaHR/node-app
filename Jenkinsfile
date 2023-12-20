@@ -31,6 +31,7 @@ pipeline {
             steps {
                 // Run tests using npm (modify this according to your testing framework)
                 //sh 'npm test'
+                echo "Testing logic goes here"
             }
         }
 

@@ -54,7 +54,6 @@ pipeline {
                     // In a real scenario, you might deploy to a Kubernetes cluster, AWS ECS, etc.
                     echo 'Deployment logic goes here...'
                     docker.image("${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}").pull()
-                    sh "docker run -itd -p 8082:8080 surya589/react-app:v3"
                 }
             }
         }

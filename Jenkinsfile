@@ -5,7 +5,7 @@ pipeline {
         // Define the Node.js version to use
         // NODEJS_VERSION = 'NodeJS-14.17.6'
         // Define the Docker image name and tag
-        DOCKER_IMAGE = 'surya589/reactapp'
+        DOCKER_IMAGE = 'surya589/react-app'
         DOCKER_IMAGE_TAG = 'v3'
     }
 

@@ -53,6 +53,7 @@ pipeline {
                     // Example: Deploy the Docker image to a server (replace with your actual deployment commands)
                     // In a real scenario, you might deploy to a Kubernetes cluster, AWS ECS, etc.
                     echo 'Deployment logic goes here...'
+                    sh "docker run -itd -p 8080:8080 surya589/react-app:v3"
                 }
             }
         }

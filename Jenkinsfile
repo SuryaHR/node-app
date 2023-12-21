@@ -29,7 +29,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 //sh 'npm test'
-                echo "Testing logic goes here"
+                echo "Testing logic goes here and test the code"
             }
         }
 

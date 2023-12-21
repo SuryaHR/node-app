@@ -8,3 +8,4 @@ Added personal access token
 The job is wroking after giving correct payload url in webhooks
 
 Adding user jenkins to docker 
+Added docker credentials in jenkins as docker-credentials-id

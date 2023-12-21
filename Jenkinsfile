@@ -55,7 +55,7 @@ pipeline {
                     echo 'Deployment logic goes here...'
                     docker.image("${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}").pull()
                     script {
-                        sh "docker run -itd -p 8082:8080 ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}"
+                        sh "docker run -itd --name node-app -p 8082:8080 ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}"
                     }
                 }
             }

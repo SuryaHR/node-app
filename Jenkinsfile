@@ -54,7 +54,9 @@ pipeline {
                     // In a real scenario, you might deploy to a Kubernetes cluster, AWS ECS, etc.
                     echo 'Deployment logic goes here...'
                     docker.image("${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}").pull()
-                    docker.image("${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}").withRun('-p 8082:8080')
+                    script {
+                        sh "docker run -p 8082:8080 ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}"
+                    }
                 }
             }
         }

@@ -55,7 +55,9 @@ pipeline {
                     echo 'Deployment logic goes here...'
                     docker.image("${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}").pull()
                     script {
-                        sh "docker run -itd --name node-app -p 8082:8080 ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}"
+			sh "docker stop node-app"
+			sh "docker rm node-app"
+			sh "docker run -itd --name node-app -p 8082:8080 ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}"
                     }
                 }
             }

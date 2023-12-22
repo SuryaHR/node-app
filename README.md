@@ -11,3 +11,4 @@ Adding user jenkins to docker
 Added docker credentials in jenkins as docker-credentials-id
 Added another freestyle job with Github Hook trigger for testing
 Why it is failing 
+Added

@@ -7,8 +7,4 @@ Trying to use webhook
 Added personal access token
 The job is wroking after giving correct payload url in webhooks
 
-Adding user jenkins to docker 
-Added docker credentials in jenkins as docker-credentials-id
-Added another freestyle job with Github Hook trigger for testing
-Why it is failing 
-Added
+Adding user jenkins to docker

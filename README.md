@@ -8,3 +8,5 @@ Added personal access token
 The job is wroking after giving correct payload url in webhooks
 
 Adding user jenkins to docker
+
+Sorry the server restarts change the IP so i fixed that

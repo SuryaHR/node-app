@@ -62,8 +62,46 @@ pipeline {
                 }
             }
         }
+
+	stage('Create New Pipeline Job') {
+            steps {
+                script {
+                    // Define the new job name
+                    def newJobName = 'Sample-pipeline'
+                    
+                    // Define Git repository URL and credentials ID
+                    def gitRepoUrl = 'https://github.com/SuryaHR/node-app.git'
+                    
+                    // Create a new pipeline job with Git SCM configuration
+                    jobDsl scriptText: """
+                        pipelineJob('${newJobName}') {
+                            definition {
+                                cpsScm {
+                                    scm {
+                                        git {
+                                            remote {
+                                                url('${gitRepoUrl}')
+                                            }
+                                            branches('*/master') // Specify branches as needed
+                                            extensions {
+                                                // Add additional Git SCM configurations if necessary
+                                            }
+                                        }
+                                    }
+                                    scriptPath('Jenkinsfile') // Path to your Jenkinsfile in the Git repository
+                                }
+                            }
+                            triggers {
+                                githubPush()
+                            }
+                        }
+                    """
+                }
+            }
+        }
     }
 
+	
     post {
         success {
             echo 'Pipeline succeeded! Node.js application is built, tested, and deployed.'
